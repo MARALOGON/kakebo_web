@@ -1,0 +1,2 @@
+from kakebo import app
+
