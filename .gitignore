@@ -3,3 +3,4 @@ venv/
 .vscode/
 .env
 movimientos.db
+notas.db
