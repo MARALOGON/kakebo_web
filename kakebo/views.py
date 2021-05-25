@@ -1,6 +1,7 @@
 from kakebo import app
-from flask import render_template, jsonify #jsonify hace lo mismo que json.dumps
+from flask import render_template, jsonify, request #jsonify hace lo mismo que json.dumps
 import sqlite3
+from kakebo.forms import MovimientosForm
 
 
 @app.route('/')
@@ -34,4 +35,6 @@ def index():
 
 @app.route('/nuevo', methods=['GET', 'POST'])
 def nuevo():
-    return render_template('alta.html')
+    form = MovimientosForm()
+
+    return render_template('alta.html', form = form)

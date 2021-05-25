@@ -4,3 +4,4 @@ venv/
 .env
 movimientos.db
 notas.db
+config.py
