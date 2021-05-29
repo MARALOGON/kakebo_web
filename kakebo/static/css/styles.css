@@ -3,3 +3,10 @@
     display: inline-block;
     font-weight: bold;
 }
+
+.msg-err {
+    font-size: 0.8em; 
+    color: darkred;
+    font-weight: bold;
+    margin-left: 105px;
+}
