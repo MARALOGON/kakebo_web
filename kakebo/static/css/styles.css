@@ -10,3 +10,13 @@
     font-weight: bold;
     margin-left: 105px;
 }
+
+.popup {
+    background-color: floralwhite;
+}
+
+.popup p {    /*El . es un selector de CSS que hace referencia a la clase popup. La p especifica que las propiedades descritas a continuación se apliquen a todos los parrafos (<p>) html que estén dentro de la clase popup*/
+    font-size: 1.2em;
+    text-align: center;
+    color :darkred;
+}

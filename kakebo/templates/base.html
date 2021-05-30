@@ -12,6 +12,15 @@
     <header>
         Kakebo Web - BZ VII
     </header>
+    {% with mensajes = get_flashed_messages() %} <!-- Función específica de Jinja que contiene los mensajes a los que hemos hecho flash. Al meterlo en base estará disponible tanto para el fichero alta como para el de movimientos -->
+        {% if mensajes %}
+        <div class="popup">
+            {% for mensaje in mensajes %} 
+            <p>{{ mensaje }}</p><!-- Este es el equivalente en Jinja a print, aqui dice que muestre cada mensaje que haya sido flasheado segun el for de la linea anterior -->
+            {% endfor %}
+        </div>
+        {% end if %}
+    {% endwith %}
     <section class="container">
         {% block contenido %}{% endblock %}
     </section>
