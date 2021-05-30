@@ -80,3 +80,10 @@ def nuevo():
 
         else:
             return render_template('alta.html', form = formulario)
+
+
+def nuevo():
+def nuevo():
+@app.route('/borrar/<int:id>', methods=['GET', 'POST']) #con el <int:id> hacemos llegar a la ruta borrar el parametro id de la tabla
+def borrar(id):
+    return remder_template('borrar.html', identificador = id)

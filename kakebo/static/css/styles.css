@@ -20,3 +20,9 @@
     text-align: center;
     color :darkred;
 }
+
+.btn {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: darkred;
+}

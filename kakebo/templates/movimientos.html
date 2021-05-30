@@ -12,6 +12,7 @@
             <th>Tipo</th>
             <th>Cantidad</th>
             <th>Saldo</th>
+            <th></th>
         </tr>
         {% for movimiento in datos %}
         <tr>
@@ -26,6 +27,8 @@
             </td>
             <td>{{ movimiento.cantidad }} €</td>
             <td>{{ movimiento.saldo }} €</td>
+            <td class="btn">Borrar</td> <!-- Con esta clase creamos el boton de borrado de registros -->
+                <a href="/borrar/{{movimiento.id}}"></a> <!-- La etiqueta <a> sirve para crar enlaces y el hrf redirige a la ruta a la que queremos que lleve ese enlace  -->
         </tr>
         {% endfor %}
     </table>
