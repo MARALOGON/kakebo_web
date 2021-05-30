@@ -1,18 +1,19 @@
 from kakebo import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
 from kakebo.forms import MovimientosForm
+from datetime import date
 
 import sqlite3
 
 
 #Hacemos una funcion para refactorizar el codigo. Todo lo que se refiere a las consultas (query) de la base de datos irá ahora en esta función (cualquier update que se haga se procesa aqui en esta funcion y lo hemos sacado de def index())
-def consultaSQL(query):
+def consultaSQL(query, parametros=[]):
     #1. Abrimos la conexión
     conexion = sqlite3.connect("movimientos.db")
     cur = conexion.cursor()
 
     #2. Ejecutamos la consulta
-    cur.execute(query)
+    cur.execute(query, parametros)
 
     #3. Obtenemos los datos de la consulta
     claves = cur.description
@@ -82,8 +83,36 @@ def nuevo():
             return render_template('alta.html', form = formulario)
 
 
-def nuevo():
-def nuevo():
-@app.route('/borrar/<int:id>', methods=['GET', 'POST']) #con el <int:id> hacemos llegar a la ruta borrar el parametro id de la tabla
+@app.route('/borrar/<int:id>', methods=['GET', 'POST']) #con el <int:id> hacemos llegar a la ruta "borrar" el parametro id de la tabla
 def borrar(id):
-    return remder_template('borrar.html', identificador = id)
+    if request.method == 'GET':
+        filas = consultaSQL("SELECT * FROM movimientos WHERE id=?", [id])
+        if len(filas) == 0:
+            flash("Este registro no existe", "error")
+            return render_template('borrar.html')
+
+        return render_template('borrar.html', movimiento=filas[0])
+    else:
+        try:
+            modificaTablaSQL("DELETE FROM movimientos WHERE id = ?", [id])
+        except sqlite3.Error as e:
+            flash("Se ha producido un error de base de datos, vuelve a intentarlo", 'error')
+            return redirect(url_for('index'))
+        
+        flash("Borrado realizado con exito", 'aviso')
+        return redirect(url_for('index'))
+
+    
+@app.route('/modificar/<int:id>', methods=['GET', 'POST']) 
+def modificar(id):
+
+    if request.method == 'GET':
+        filas = consultaSQL("SELECT * FROM movimientos WHERE id=?", [id])
+        if len(filas) == 0:
+            flash("Este registro no existe", "error")
+            return render_template('modificar.html')
+        registro = filas[0]
+        registro['fecha'] = date.fromisoformat(registro['fecha'])
+        formulario = MovimientosForm(data=registro)
+        
+        return render_template('modificar.html', form=formulario)

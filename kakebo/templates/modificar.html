@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Modificar{% endblock %}
+
+{% block contenido %}
+<h1>Modificar movimiento  </h1>
+
+<form action="modificar/{{ form.id.data }}" method="post">
+    {{ form.hidden_tag() }} <!-- Esta etiqueta es para el error del token. Pone un campo oculto en el formulario con el token (clave) asociado a el -->
+
+    <fieldset class="container">
+        <div>
+            {{ form.fecha.label(class="mylabel") }}
+            {{ form.fecha(type="date") }}
+            {% for error in form.fecha.errors %} <!-- Solo entra al bucle for en caso de que haya algun error -->
+
+                <p class="msg-err">
+                    {{ error }} <!-- Esta linea es para mostrar el error -->
+                </p>
+            {% endfor%}
+        </div>
+        <div >
+            {{ form.concepto.label(class="mylabel") }}
+            {{ form.concepto(placeholder="Razón del gasto") }}
+            {% for error in form.concepto.errors %}
+                <p class="msg-err">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </div>
+        <div >
+            {{ form.categoria.label(class="mylabel") }}
+            {{ form.categoria() }}
+            {% for error in form.categoria.errors %}
+                <p class="msg-err">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </div>
+        <div >
+            {{ form.cantidad.label(class="mylabel") }}
+            {{ form.cantidad() }}
+            {% for error in form.cantidad.errors %}
+                <p class="msg-err">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </div>
+        <div >
+            {{ form.esGasto.label(class="mylabel") }}
+            {{ form.esGasto() }}
+        </div>
+    </fieldset>
+    {{ form.submit()}}
+</form>
+
+{% endblock %}

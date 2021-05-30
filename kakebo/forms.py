@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField, StringField, SelectField, SubmitField, FloatField, BooleanField
+from wtforms import DateField, StringField, SelectField, SubmitField, FloatField, BooleanField, HiddenField
 from wtforms.fields.core import BooleanField
 from wtforms.validators import DataRequired, Length, ValidationError
 from datetime import date
+
+
 
 def fecha_por_debajo_de_hoy(formulario, campo):
     hoy = date.today()
@@ -10,6 +12,7 @@ def fecha_por_debajo_de_hoy(formulario, campo):
         raise ValidationError('La fecha introducida no pude ser mayor que {}'.format(hoy))
 
 class MovimientosForm(FlaskForm):
+    id = HiddenField()
     fecha = DateField("Fecha", validators=[DataRequired(message="Insertar una fecha válida"), fecha_por_debajo_de_hoy]) #Datefield es una clase de wtforms
     concepto = StringField("Concepto", validators = [DataRequired(), Length(min=10)])
     categoria = SelectField("Categoria", choices=[('00', ''), ('SU', 'Supervivencia'), ('OV', 'Ocio/Vicio'),

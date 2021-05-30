@@ -21,6 +21,14 @@
     color :darkred;
 }
 
+.popup p.aviso {
+    color: green;
+}
+
+.popup p.error {
+    color: darkred;
+
+}
 .btn {
     font-size: 0.8em;
     font-weight: bold;
