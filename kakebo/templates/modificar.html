@@ -5,7 +5,7 @@
 {% block contenido %}
 <h1>Modificar movimiento  </h1>
 
-<form action="modificar/{{ form.id.data }}" method="post">
+<form action="/modificar/{{ form.id.data }}" method="post">
     {{ form.hidden_tag() }} <!-- Esta etiqueta es para el error del token. Pone un campo oculto en el formulario con el token (clave) asociado a el -->
 
     <fieldset class="container">

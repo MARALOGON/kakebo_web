@@ -1,3 +1,4 @@
+from flask.app import Flask
 from flask_wtf import FlaskForm
 from wtforms import DateField, StringField, SelectField, SubmitField, FloatField, BooleanField, HiddenField
 from wtforms.fields.core import BooleanField
@@ -21,3 +22,8 @@ class MovimientosForm(FlaskForm):
     esGasto = BooleanField("Es gasto")
     submit = SubmitField('Aceptar')
 
+class FiltraMovimientosForm(Flask):
+    fechaDesde = DateField("Desde", validators=[fecha_por_debajo_de_hoy])
+    fechaHasta = DateField("Hasta", validators=[fecha_por_debajo_de_hoy])
+    texto = StringField("Concepto")
+    submit = SubmitField("Filtrar")

@@ -1,6 +1,6 @@
 from kakebo import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
-from kakebo.forms import MovimientosForm
+from kakebo.forms import MovimientosForm, FiltraMovimientosForm, 
 from datetime import date
 
 import sqlite3
@@ -42,6 +42,8 @@ def modificaTablaSQL(query, parametros=[]):
 
 @app.route('/')
 def index():
+    filtraForm = FiltraMovimientosForm()
+
     movimientos = consultaSQL('SELECT * FROM movimientos order by fecha;')
     
     saldo = 0
@@ -53,7 +55,7 @@ def index():
         d['saldo'] = saldo
 
 
-    return render_template('movimientos.html', datos = movimientos)
+    return render_template('movimientos.html', datos = movimientos, formulario = filtraForm)
 
 
 @app.route('/nuevo', methods=['GET', 'POST'])
@@ -116,3 +118,25 @@ def modificar(id):
         formulario = MovimientosForm(data=registro)
         
         return render_template('modificar.html', form=formulario)
+
+    if request.method == 'POST':
+        formulario = MovimientosForm()
+        if formulario.validate():
+            try:
+                modificaTablaSQL("UPDATE movimientos SET fecha = ?, concepto = ?, categoria = ?, esGasto = ?, cantidad = ? WHERE id = ?",
+                                [formulario.fecha.data,
+                                formulario.concepto.data,
+                                formulario.categoria.data,
+                                formulario.esGasto.data,
+                                formulario.cantidad.data,
+                                id]
+
+                )
+                flash("Modificación realizada con éxito", "aviso")
+                return redirect(url_for("index"))
+            except sqlite3.Error as e:
+                print("Error en update", e)
+                flash("Se ha producido un erro en acceso a base de datos. Contcte con el administrador", "error")
+                return render_template('modificar.html', form=formulario)
+        else:
+            return render_template('modificar.html', form=formulario)
